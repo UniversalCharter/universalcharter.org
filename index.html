@@ -249,6 +249,171 @@
             opacity: 0.8;
         }
 
+        .charter-text {
+            line-height: 1.8;
+            color: #333;
+            padding: 2rem;
+        }
+
+        .charter-text h1, .charter-text h2, .charter-text h3, .charter-text h4 {
+            color: #2c1810;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .charter-text h1 {
+            font-size: 2rem;
+            border-bottom: 2px solid #ff6b35;
+            padding-bottom: 0.5rem;
+        }
+
+        .charter-text h2 {
+            font-size: 1.6rem;
+            color: #ff6b35;
+        }
+
+        .charter-text h3 {
+            font-size: 1.3rem;
+        }
+
+        .charter-text blockquote {
+            border-left: 4px solid #ff6b35;
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        .charter-text ul, .charter-text ol {
+            margin-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .charter-text li {
+            margin-bottom: 0.5rem;
+        }
+
+        .charter-text p {
+            margin-bottom: 1rem;
+        }
+
+        .charter-text code {
+            background: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        /* Floating TOC styles */
+        .charter-toc-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: none;
+        }
+
+        .charter-toc-button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .charter-toc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        .charter-toc-dropdown {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-width: 300px;
+            max-width: 400px;
+            max-height: 70vh;
+            overflow-y: auto;
+            display: none;
+            border: 1px solid #eee;
+        }
+
+        .charter-toc-dropdown.show {
+            display: block;
+        }
+
+        .charter-toc-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            font-weight: 600;
+            color: #2c1810;
+            background: #f8f9fa;
+            border-radius: 15px 15px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        .charter-toc-list {
+            padding: 0.5rem;
+        }
+
+        .charter-toc-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #333;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+
+        .charter-toc-item:hover {
+            background: #f8f9fa;
+            color: #ff6b35;
+            transform: translateX(5px);
+        }
+
+        .charter-toc-item.toc-h1 {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .charter-toc-item.toc-h2 {
+            padding-left: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .charter-toc-item.toc-h3 {
+            padding-left: 2.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .charter-toc-container {
+                bottom: 1rem;
+                right: 1rem;
+            }
+            
+            .charter-toc-dropdown {
+                right: -1rem;
+                left: -1rem;
+                max-width: calc(100vw - 2rem);
+            }
+        }
+
         @media (max-width: 768px) {
             .hero-content {
                 grid-template-columns: 1fr;
@@ -287,7 +452,7 @@
                 </div>
             </div>
             <div class="hero-image">
-                <img src="/public/images/hero-image.jpg" alt="Diverse beings in communication" />
+                <img src="public/images/hero-image.jpg" alt="Diverse beings in communication" />
             </div>
         </div>
     </section>
@@ -318,8 +483,20 @@
                 </div>
             </div>
 
-            <div style="text-align: center;">
-                <a href="https://github.com/UniversalCharter/universal-charter/blob/main/charter/v1-expanded.md" class="btn btn-primary">Read the Full Charter</a>
+            <div id="charter-collapsed" style="margin-top: 3rem; padding: 1rem 2rem; background: #f8f9fa; border-radius: 15px; display: none; text-align: center; border: 2px dashed #ddd;">
+                <p style="color: #666; margin: 0;">Universal Charter (collapsed) - Click "Read the Full Charter" to expand</p>
+            </div>
+            
+            <div id="charter-content" style="margin-top: 3rem; padding: 2rem; background: #f8f9fa; border-radius: 15px; display: none;">
+                <div class="charter-loading" style="text-align: center; padding: 2rem;">
+                    <p style="color: #666;">Loading the Universal Charter...</p>
+                </div>
+                <div class="charter-text" style="display: none;"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="#" id="load-charter" class="btn btn-primary">Read the Full Charter</a>
+                <a href="https://github.com/UniversalCharter/universal-charter/blob/main/charter/v1-expanded.md" class="btn btn-secondary" style="margin-left: 1rem; background: #333; color: white; border-color: #333;">View on GitHub</a>
             </div>
         </div>
     </section>
@@ -337,7 +514,7 @@
                     </div>
                 </div>
                 <div class="collaboration-image">
-                    <img src="/public/images/collaboartion-image.jpg" alt="Beings collaborating around a table" />
+                    <img src="public/images/collaboartion-image.jpg" alt="Beings collaborating around a table" />
                 </div>
             </div>
         </div>
@@ -350,8 +527,312 @@
                 <a href="https://github.com/UniversalCharter">GitHub Organization</a>
                 <a href="https://github.com/UniversalCharter/universal-charter">Charter Repository</a>
                 <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0 License</a>
+                <a href="mailto:info@universalcharter.org">info@universalcharter.org</a>
             </div>
         </div>
     </footer>
+
+    <!-- Floating TOC for Charter -->
+    <div class="charter-toc-container" id="charter-toc-container">
+        <div class="charter-toc-dropdown" id="charter-toc-dropdown">
+            <div class="charter-toc-header">Universal Charter Navigation</div>
+            <div class="charter-toc-list" id="charter-toc-list">
+                <!-- TOC items will be dynamically inserted here -->
+            </div>
+        </div>
+        <button class="charter-toc-button" id="charter-toc-button">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12h18m-18-6h18M3 18h18"/>
+            </svg>
+            Contents
+        </button>
+    </div>
+
+    <script>
+        // Convert markdown to HTML (basic implementation)
+        function markdownToHtml(markdown) {
+            let html = markdown;
+            
+            // Function to extract ID from header text with inline anchor
+            function extractIdFromHeader(text) {
+                // Check if there's an inline anchor definition like {#some-id}
+                const anchorMatch = text.match(/\{#([^}]+)\}$/);
+                if (anchorMatch) {
+                    console.log('Found inline anchor:', anchorMatch[1], 'in text:', text);
+                    return {
+                        id: anchorMatch[1],
+                        cleanText: text.replace(/\s*\{#[^}]+\}$/, '') // Remove the anchor definition from display text
+                    };
+                }
+                
+                // Otherwise generate ID from text
+                let id = text.toLowerCase()
+                    .replace(/[^\w\s.-]/g, '') // Keep dots for roman numerals like "II."
+                    .replace(/\.\s+/g, '-')    // Replace ". " with "-"
+                    .replace(/\s+/g, '-')      // Replace spaces with dashes
+                    .replace(/\.+$/, '')       // Remove trailing dots
+                    .replace(/^-+|-+$/g, '');  // Remove leading/trailing dashes
+                
+                // Handle roman numerals at the start
+                id = id.replace(/^([ivxlcdm]+)-/, function(match, roman) {
+                    return roman + '-';
+                });
+                
+                console.log('Generated ID:', id, 'from text:', text);
+                return { id: id, cleanText: text };
+            }
+            
+            // Headers with ID extraction/generation for anchoring
+            html = html.replace(/^#### (.*$)/gim, function(match, p1) {
+                const result = extractIdFromHeader(p1);
+                return '<h4 id="' + result.id + '">' + result.cleanText + '</h4>';
+            });
+            html = html.replace(/^### (.*$)/gim, function(match, p1) {
+                const result = extractIdFromHeader(p1);
+                return '<h3 id="' + result.id + '">' + result.cleanText + '</h3>';
+            });
+            html = html.replace(/^## (.*$)/gim, function(match, p1) {
+                const result = extractIdFromHeader(p1);
+                return '<h2 id="' + result.id + '">' + result.cleanText + '</h2>';
+            });
+            html = html.replace(/^# (.*$)/gim, function(match, p1) {
+                const result = extractIdFromHeader(p1);
+                return '<h1 id="' + result.id + '">' + result.cleanText + '</h1>';
+            });
+            
+            // Bold
+            html = html.replace(/\*\*\*(.*)\*\*\*/g, '<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>');
+            
+            // Italic
+            html = html.replace(/\*(.*)\*/g, '<em>$1</em>');
+            
+            // Links - handle file:/// links and principle references specially
+            html = html.replace(/\[([^\]]+)\]\(([^)]*)\)/g, function(match, text, url) {
+                // Handle empty URLs for principle references
+                if (!url || url.trim() === '') {
+                    // Check if this is a principle reference
+                    if (text.match(/Principle \d+:/)) {
+                        // Generate anchor from principle text
+                        const principleAnchor = '#' + text.toLowerCase()
+                            .replace(/[^\w\s:]/g, '')
+                            .replace(/\s+/g, '-')
+                            .replace(/:/g, '');
+                        console.log('Generated principle anchor for empty URL:', principleAnchor, 'from:', text);
+                        return '<a href="' + principleAnchor + '">' + text + '</a>';
+                    }
+                    // Otherwise, just return the text without a link
+                    return text;
+                }
+                // Check if it's a link to another .md file (with or without anchor)
+                else if (url.includes('.md')) {
+                    // Extract just the anchor part if it exists
+                    if (url.includes('#')) {
+                        const anchor = url.substring(url.indexOf('#'));
+                        console.log('Converting .md file link to anchor:', url, '->', anchor);
+                        return '<a href="' + anchor + '">' + text + '</a>';
+                    }
+                    // If no anchor, try to generate one from the text
+                    else if (text.match(/Principle \d+:/)) {
+                        const principleAnchor = '#' + text.toLowerCase()
+                            .replace(/[^\w\s:]/g, '')
+                            .replace(/\s+/g, '-')
+                            .replace(/:/g, '');
+                        return '<a href="' + principleAnchor + '">' + text + '</a>';
+                    }
+                    // Otherwise, just return the text without a link
+                    return text;
+                }
+                // Check if it's a file:/// link with an anchor
+                else if (url.startsWith('file:///') && url.includes('#')) {
+                    // Extract just the anchor part
+                    const anchor = url.substring(url.indexOf('#'));
+                    return '<a href="' + anchor + '">' + text + '</a>';
+                }
+                // For external links, open in new tab
+                else if (url.startsWith('http://') || url.startsWith('https://')) {
+                    return '<a href="' + url + '" target="_blank">' + text + '</a>';
+                }
+                // For other links (including anchors), handle normally
+                else {
+                    return '<a href="' + url + '">' + text + '</a>';
+                }
+            });
+            
+            // Line breaks
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = '<p>' + html + '</p>';
+            
+            // Lists
+            html = html.replace(/^\* (.+)$/gim, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+            
+            // Blockquotes
+            html = html.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+            
+            // Code blocks
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+            
+            return html;
+        }
+
+
+        let charterLoaded = false;
+        let charterVisible = false;
+
+        // TOC functionality
+        function buildTOC() {
+            const tocList = document.getElementById('charter-toc-list');
+            const textDiv = document.querySelector('.charter-text');
+            
+            // Clear existing TOC
+            tocList.innerHTML = '';
+            
+            // Find all headers in the charter
+            const headers = textDiv.querySelectorAll('h1, h2, h3');
+            
+            headers.forEach(header => {
+                const level = header.tagName.toLowerCase();
+                const text = header.textContent;
+                const id = header.id;
+                
+                if (id) {
+                    const tocItem = document.createElement('a');
+                    tocItem.href = '#' + id;
+                    tocItem.className = 'charter-toc-item toc-' + level;
+                    tocItem.textContent = text;
+                    
+                    tocItem.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        
+                        // Close the dropdown
+                        document.getElementById('charter-toc-dropdown').classList.remove('show');
+                        
+                        // Scroll to the header
+                        const targetElement = document.getElementById(id);
+                        if (targetElement) {
+                            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                    });
+                    
+                    tocList.appendChild(tocItem);
+                }
+            });
+        }
+
+        // TOC button toggle
+        document.getElementById('charter-toc-button').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('charter-toc-dropdown').classList.toggle('show');
+        });
+
+        // Close TOC dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('charter-toc-container').contains(e.target)) {
+                document.getElementById('charter-toc-dropdown').classList.remove('show');
+            }
+        });
+
+        document.getElementById('load-charter').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const charterContent = document.getElementById('charter-content');
+            const charterCollapsed = document.getElementById('charter-collapsed');
+            const loadingDiv = charterContent.querySelector('.charter-loading');
+            const textDiv = charterContent.querySelector('.charter-text');
+            const loadButton = document.getElementById('load-charter');
+            
+            // Toggle visibility if already loaded
+            if (charterLoaded) {
+                if (charterVisible) {
+                    charterContent.style.display = 'none';
+                    charterCollapsed.style.display = 'block';
+                    loadButton.textContent = 'Read the Full Charter';
+                    charterVisible = false;
+                    // Hide TOC
+                    document.getElementById('charter-toc-container').style.display = 'none';
+                } else {
+                    charterContent.style.display = 'block';
+                    charterCollapsed.style.display = 'none';
+                    loadButton.textContent = 'Hide Charter';
+                    charterVisible = true;
+                    charterContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Show TOC
+                    document.getElementById('charter-toc-container').style.display = 'block';
+                }
+                return;
+            }
+            
+            // Show the charter content container
+            charterContent.style.display = 'block';
+            charterCollapsed.style.display = 'none';
+            charterVisible = true;
+            
+            // Fetch the charter content
+            fetch('https://raw.githubusercontent.com/UniversalCharter/universal-charter/main/charter/v1-expanded.md')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load the charter');
+                    }
+                    return response.text();
+                })
+                .then(markdown => {
+                    // Convert markdown to HTML
+                    const html = markdownToHtml(markdown);
+                    
+                    // Hide loading, show content
+                    loadingDiv.style.display = 'none';
+                    textDiv.innerHTML = html;
+                    textDiv.style.display = 'block';
+                    
+                    // Mark as loaded and update button
+                    charterLoaded = true;
+                    loadButton.textContent = 'Hide Charter';
+                    
+                    // Add click handlers to all anchor links within the charter
+                    const anchorLinks = textDiv.querySelectorAll('a[href^="#"]');
+                    console.log('Found anchor links:', anchorLinks.length);
+                    anchorLinks.forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const targetId = this.getAttribute('href').substring(1);
+                            console.log('Looking for element with ID:', targetId);
+                            
+                            // Try to find the element in the whole document
+                            const targetElement = document.getElementById(targetId);
+                            if (targetElement) {
+                                console.log('Found element:', targetElement);
+                                // Smooth scroll to the element on the page
+                                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            } else {
+                                console.log('Element not found, trying alternative ID format');
+                                // Try without roman numerals
+                                const altId = targetId.replace(/^[ivx]+-/, '');
+                                const altElement = document.getElementById(altId);
+                                if (altElement) {
+                                    altElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+                        });
+                    });
+                    
+                    // Build and show TOC
+                    buildTOC();
+                    document.getElementById('charter-toc-container').style.display = 'block';
+                    
+                    // Smooth scroll to the charter content
+                    charterContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                })
+                .catch(error => {
+                    loadingDiv.innerHTML = `
+                        <p style="color: #e74c3c;">Error loading the charter: ${error.message}</p>
+                        <p style="color: #666; margin-top: 1rem;">Please try again or <a href="https://github.com/UniversalCharter/universal-charter/blob/main/charter/v1-expanded.md" target="_blank">view on GitHub</a></p>
+                    `;
+                    charterVisible = false;
+                    // Hide TOC on error
+                    document.getElementById('charter-toc-container').style.display = 'none';
+                });
+        });
+    </script>
 </body>
 </html>
